@@ -403,7 +403,7 @@ const About = () => {
     },
     jobs: {
       title: "Job Board: Specialized Opportunities",
-      content: "Precision Heavy Haul is looking for elite talent. Current openings include:\n\n• Heavy Haul Logistics Coordinator\n• Specialized Route Engineer\n• Industrial Cargo Compliance Officer\n• Certified Pilot Car Lead\n• Administrative Assistant\n\nWe provide industry-leading compensation and a culture built on engineering precision. Join the team that moves the impossible."
+      content: "Precision Heavy Haul is looking for elite talent. Current openings include:\n\n• Heavy Haul Logistics Coordinator\n• Specialized Route Engineer\n• Industrial Cargo Compliance Officer\n• Certified Pilot Car Lead\n• Data entry and record management\n\nWe provide industry-leading compensation and a culture built on engineering precision. Join the team that moves the impossible."
     }
   };
 
@@ -885,7 +885,7 @@ const CareersSection = () => (
                 <option className="bg-zinc-900">Logistics Coordinator</option>
                 <option className="bg-zinc-900">Route Planner</option>
                 <option className="bg-zinc-900">Diesel Mechanic</option>
-                <option className="bg-zinc-900">Administrative Assistant</option>
+                <option className="bg-zinc-900">Data entry and record management</option>
               </select>
             </div>
 
@@ -918,7 +918,7 @@ const OPERATIONAL_ROLES = [
     icon: <Clock className="w-6 h-6" />
   },
   {
-    role: "Administrative Support",
+    role: "Data entry and record management",
     description: "Ensuring all back-office logistics, invoicing, and fleet documentation are handled with precision.",
     icon: <FileText className="w-6 h-6" />
   },
