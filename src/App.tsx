@@ -721,17 +721,17 @@ const Process = () => (
   </section>
 );
 
-const FormField = ({ label, type = "text", placeholder, options }: any) => (
+const FormField = ({ label, type = "text", placeholder, options, name, required = true }: any) => (
   <div className="flex flex-col gap-2">
     <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em]">{label}</label>
     {type === "select" ? (
-      <select className="bg-transparent border-b border-zinc-200 py-3 text-sm focus:border-brand-green outline-none transition-colors text-zinc-900 rounded-none w-full">
+      <select name={name} required={required} className="bg-transparent border-b border-zinc-200 py-3 text-sm focus:border-brand-green outline-none transition-colors text-zinc-900 rounded-none w-full">
         {options.map((o: any) => <option key={o}>{o}</option>)}
       </select>
     ) : type === "textarea" ? (
-      <textarea rows={3} placeholder={placeholder} className="bg-transparent border-b border-zinc-200 py-3 text-sm focus:border-brand-green outline-none transition-colors text-zinc-900 placeholder:text-zinc-300 resize-none rounded-none w-full" />
+      <textarea name={name} required={required} rows={3} placeholder={placeholder} className="bg-transparent border-b border-zinc-200 py-3 text-sm focus:border-brand-green outline-none transition-colors text-zinc-900 placeholder:text-zinc-300 resize-none rounded-none w-full" />
     ) : (
-      <input type={type} placeholder={placeholder} className="bg-transparent border-b border-zinc-200 py-3 text-sm focus:border-brand-green outline-none transition-colors text-zinc-900 placeholder:text-zinc-300 rounded-none w-full" />
+      <input type={type} name={name} required={required} placeholder={placeholder} className="bg-transparent border-b border-zinc-200 py-3 text-sm focus:border-brand-green outline-none transition-colors text-zinc-900 placeholder:text-zinc-300 rounded-none w-full" />
     )}
   </div>
 );
@@ -789,21 +789,23 @@ const QuoteSection = () => (
         
         <div className="p-12 md:p-16 lg:w-3/5 bg-white relative">
           <div className="absolute inset-0 industrial-grid opacity-[0.02] pointer-events-none" />
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-12 relative z-10" onSubmit={(e) => e.preventDefault()}>
-            <FormField label="Full Name" placeholder="John Doe" />
-            <FormField label="Email Address" type="email" placeholder="john@company.com" />
-            <FormField label="Phone Number" placeholder="+1 442 999 6108" />
-            <FormField label="Type of Load" type="select" options={["Oversized Machinery", "Industrial Vessel", "Construction Equipment", "Aircraft Parts", "Other"]} />
-            <FormField label="Pickup Location" placeholder="City, State" />
-            <FormField label="Delivery Location" placeholder="City, State" />
+          <form className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-12 relative z-10" action="https://formsubmit.co/airvagreenlogistics@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="New Freight Quote Request" />
+            <input type="hidden" name="_captcha" value="false" />
+            <FormField label="Full Name" name="name" placeholder="John Doe" />
+            <FormField label="Email Address" type="email" name="email" placeholder="john@company.com" />
+            <FormField label="Phone Number" name="phone" placeholder="+1 442 999 6108" />
+            <FormField label="Type of Load" type="select" name="load_type" options={["Oversized Machinery", "Industrial Vessel", "Construction Equipment", "Aircraft Parts", "Other"]} />
+            <FormField label="Pickup Location" name="pickup" placeholder="City, State" />
+            <FormField label="Delivery Location" name="delivery" placeholder="City, State" />
             <div className="md:col-span-2">
-              <FormField label="Weight / Dimensions" placeholder="e.g. 40 Tons, 60ft x 12ft" />
+              <FormField label="Weight / Dimensions" name="dimensions" placeholder="e.g. 40 Tons, 60ft x 12ft" />
             </div>
             <div className="md:col-span-2">
-              <FormField label="Additional Details" type="textarea" placeholder="Tell us about any specific handling requirements..." />
+              <FormField label="Additional Details" name="details" required={false} type="textarea" placeholder="Tell us about any specific handling requirements..." />
             </div>
             <div className="md:col-span-2 mt-4 pt-6 border-t border-zinc-100 flex flex-col md:flex-row items-center gap-8">
-              <button className="bg-zinc-950 text-white px-12 py-5 rounded-none font-bold uppercase tracking-[0.2em] text-[11px] hover:bg-brand-green transition-all duration-500 w-full md:w-auto inline-flex items-center justify-center gap-4 group shadow-xl active:scale-95">
+              <button type="submit" className="bg-zinc-950 text-white px-12 py-5 rounded-none font-bold uppercase tracking-[0.2em] text-[11px] hover:bg-brand-green transition-all duration-500 w-full md:w-auto inline-flex items-center justify-center gap-4 group shadow-xl active:scale-95">
                 Generate Engineered Quote <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-2" />
               </button>
               <p className="text-[10px] text-zinc-400 font-medium uppercase tracking-widest text-center md:text-left">
@@ -852,12 +854,14 @@ const CareersSection = () => (
         
         <div className="relative z-10">
           <h3 className="text-3xl font-display font-light mb-8 text-white">Application Portal</h3>
-          <form className="space-y-10" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-10" action="https://formsubmit.co/airvagreenlogistics@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="New Job Application Received" />
+            <input type="hidden" name="_captcha" value="false" />
             <div className="flex flex-col gap-3">
               <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Applicant Name</label>
               <div className="flex items-center gap-4 border-b border-white/10 py-3 focus-within:border-brand-green transition-colors">
                 <User className="w-4 h-4 text-zinc-400" />
-                <input type="text" placeholder="Full Name" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
+                <input type="text" name="name" required placeholder="Full Name" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
               </div>
             </div>
             
@@ -866,21 +870,21 @@ const CareersSection = () => (
                 <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Email Address</label>
                 <div className="flex items-center gap-4 border-b border-white/10 py-3 focus-within:border-brand-green transition-colors">
                   <Mail className="w-4 h-4 text-zinc-400" />
-                  <input type="email" placeholder="Email" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
+                  <input type="email" name="email" required placeholder="Email" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
                 </div>
               </div>
               <div className="flex flex-col gap-3">
                 <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Phone</label>
                 <div className="flex items-center gap-4 border-b border-white/10 py-3 focus-within:border-brand-green transition-colors">
                   <Phone className="w-4 h-4 text-zinc-400" />
-                  <input type="text" placeholder="Number" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
+                  <input type="text" name="phone" required placeholder="Number" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
                 </div>
               </div>
             </div>
 
             <div className="flex flex-col gap-3">
               <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Desired Role</label>
-              <select className="bg-transparent border-b border-white/10 py-3 text-base text-white focus:border-brand-green outline-none appearance-none rounded-none w-full">
+              <select name="role" required className="bg-transparent border-b border-white/10 py-3 text-base text-white focus:border-brand-green outline-none appearance-none rounded-none w-full">
                 <option className="bg-zinc-900">Specialized Haul Driver</option>
                 <option className="bg-zinc-900">Logistics Coordinator</option>
                 <option className="bg-zinc-900">Route Planner</option>
@@ -890,7 +894,7 @@ const CareersSection = () => (
             </div>
 
             <div className="pt-6">
-              <button className="w-full h-16 bg-brand-green text-white font-bold uppercase tracking-[0.3em] text-[11px] hover:bg-white hover:text-zinc-900 transition-all duration-500 shadow-xl active:scale-95">
+              <button type="submit" className="w-full h-16 bg-brand-green text-white font-bold uppercase tracking-[0.3em] text-[11px] hover:bg-white hover:text-zinc-900 transition-all duration-500 shadow-xl active:scale-95">
                 Submit Application
               </button>
             </div>
@@ -1061,9 +1065,11 @@ const Footer = () => (
         <div>
           <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] mb-8 text-brand-gold">Dispatch</h4>
           <p className="text-zinc-500 text-xs font-light leading-relaxed mb-6">Receive industry insights and specialized permit updates.</p>
-          <form className="flex border-b border-white/20 pb-2 focus-within:border-brand-green transition-colors" onSubmit={(e) => e.preventDefault()}>
-            <input type="email" placeholder="Email Address" className="bg-transparent border-none px-2 py-1 text-sm flex-grow outline-none placeholder:text-zinc-600" />
-            <button className="px-2 text-brand-green hover:text-white transition-colors">
+          <form className="flex border-b border-white/20 pb-2 focus-within:border-brand-green transition-colors" action="https://formsubmit.co/airvagreenlogistics@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="New Newsletter Subscription" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="email" name="email" required placeholder="Email Address" className="bg-transparent border-none px-2 py-1 text-sm flex-grow outline-none placeholder:text-zinc-600" />
+            <button type="submit" className="px-2 text-brand-green hover:text-white transition-colors">
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
