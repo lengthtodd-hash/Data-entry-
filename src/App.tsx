@@ -309,6 +309,7 @@ const Hero = () => {
           alt="Heavy Haul Operations"
           className="w-full h-full object-cover opacity-60"
           referrerPolicy="no-referrer"
+          fetchPriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-green via-brand-green/40 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-green/80 to-transparent" />
@@ -450,6 +451,7 @@ const About = () => {
               alt="Heavy Logistics Operations"
               className="rounded-3xl shadow-2xl"
               referrerPolicy="no-referrer"
+              loading="lazy"
             />
           </motion.div>
           <div className="absolute -bottom-10 -right-10 w-full h-full bg-zinc-100 rounded-3xl -z-0" />
@@ -541,6 +543,7 @@ const Services = () => {
                   alt={s.title} 
                   className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                   referrerPolicy="no-referrer"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-zinc-950/20 group-hover:bg-zinc-950/0 transition-colors duration-500" />
               </div>
@@ -586,6 +589,7 @@ const Services = () => {
                   alt={selectedService.title} 
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 <button 
@@ -968,6 +972,7 @@ const OperationalCommand = () => (
               alt="Logistics Command Center" 
               className="rounded-[40px] shadow-2xl relative z-10 grayscale hover:grayscale-0 transition-all duration-1000"
               referrerPolicy="no-referrer"
+              loading="lazy"
             />
             <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-brand-green rounded-3xl -z-10 animate-pulse" />
           </FadeUp>
