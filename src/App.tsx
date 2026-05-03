@@ -59,7 +59,7 @@ const SERVICES: Service[] = [
     title: "Heavy Equipment",
     description: "Reliable transport for heavy machinery such as excavators, bulldozers, and cranes.",
     icon: <Weight className="w-5 h-5" />,
-    image: "https://i.postimg.cc/50yz9GWG/IMG-20260430-001335.png",
+    image: "https://i.postimg.cc/J4FsWVh1/IMG-20260430-001335.png",
     details: "Our heavy equipment transport service is designed to move your largest and most cumbersome machinery safely and efficiently. We utilize specialized multi-axle trailers and follow strict safety protocols.",
     features: ["Oversize load permitting", "Route surveys and pilot cars", "Multi-axle RGN trailers", "$5M cargo insurance coverage"]
   },
@@ -67,7 +67,7 @@ const SERVICES: Service[] = [
     title: "Small/Medium Equipment",
     description: "Efficient delivery of skid steers, generators, and compact agricultural tools.",
     icon: <Layers className="w-5 h-5" />,
-    image: "https://i.postimg.cc/PJ3ySZzW/1777506979268.png",
+    image: "https://i.postimg.cc/PJ0nSkWw/1777506979268.png",
     details: "Perfect for construction sites and agricultural setups. We ensure rapid, reliable deployment of your skid steers, generators, and compact tools directly to where they are needed.",
     features: ["Same-day & next-day options", "Flatbed and step-deck trailers", "Load securement tracking", "Door-to-door delivery"]
   },
@@ -75,7 +75,7 @@ const SERVICES: Service[] = [
     title: "Vehicle",
     description: "Secure auto transport for everything from sedans to heavy-duty trucks.",
     icon: <Truck className="w-5 h-5" />,
-    image: "https://i.postimg.cc/Sx7VnJJW/1777507527335.png",
+    image: "https://i.postimg.cc/KvY1V7nL/1777507527335.png",
     details: "Whether you're moving a solitary vehicle, a corporate fleet, or heavy-duty commercial trucks, our specialized auto haulers guarantee safe and timely, scratch-free delivery.",
     features: ["Open and enclosed transport", "Fleet relocation services", "Winch-on/winch-off capability", "Real-time GPS tracking"]
   },
@@ -83,7 +83,7 @@ const SERVICES: Service[] = [
     title: "Boat",
     description: "Specialized trailers and harnesses for safe transportation of marine vessels.",
     icon: <Anchor className="w-5 h-5" />,
-    image: "https://i.postimg.cc/9FHnz3L5/IMG-20260430-012156.png",
+    image: "https://i.postimg.cc/Pq0cGMLS/IMG-20260430-012156.png",
     details: "Marine vessels require specific handling. We provide custom cradles, specialized low-boy trailers, and experienced maritime logistics coordinators to ensure your boat reaches the water safely.",
     features: ["Custom hull support cradles", "Shrink-wrapping solutions", "Marina-to-marina transport", "Over-height routing expertise"]
   },
@@ -91,7 +91,7 @@ const SERVICES: Service[] = [
     title: "Container/Freight Shipping",
     description: "Port-to-door container hauling and comprehensive freight shipping solutions.",
     icon: <Globe className="w-5 h-5" />,
-    image: "https://i.postimg.cc/d3bnyC29/1777508330680.png",
+    image: "https://i.postimg.cc/vZN29vvv/1777508330680.png",
     details: "We seamlessly connect major ports to your facility. Our intermodal drayage and direct freight services handle standard, refrigerated, and high-cube containers.",
     features: ["Port drayage (TWIC certified)", "Customs clearance assistance", "FCL and LCL options", "Cross-docking facilities"]
   },
@@ -99,7 +99,7 @@ const SERVICES: Service[] = [
     title: "Mobile House",
     description: "Expert routing and handling for safe relocation of mobile and modular homes.",
     icon: <Home className="w-5 h-5" />,
-    image: "https://i.postimg.cc/4N3h6yLv/IMG-20260430-012829.png",
+    image: "https://i.postimg.cc/W1CSt12z/IMG-20260430-012829.png",
     details: "Relocating modular or mobile homes involves highly complex logistics. Our team manages teardown, transport, and setup coordination, securing all necessary escort vehicles.",
     features: ["Escort and pilot vehicle dispatch", "Pre-transport structural inspection", "Municipal permitting", "Toter truck fleets"]
   },
@@ -107,7 +107,7 @@ const SERVICES: Service[] = [
     title: "Small Box",
     description: "Expedited less-than-truckload (LTL) services for smaller freight and packages.",
     icon: <Package className="w-5 h-5" />,
-    image: "https://i.postimg.cc/br5YHydc/IMG-20260430-013151.png",
+    image: "https://i.postimg.cc/KvsDs8gx/IMG-20260430-013151.png",
     details: "For smaller shipments that don't require a full trailer, our LTL service offers an economical yet expedited solution with regular routes and consolidated shipping.",
     features: ["Expedited LTL networks", "Palletized freight handling", "Liftgate pickup and delivery", "Consolidation savings"]
   }
@@ -305,8 +305,8 @@ const Hero = () => {
           initial={{ scale: 1.05 }}
           animate={{ scale: 1 }}
           transition={{ duration: 4, ease: "easeOut" }}
-          src="https://i.postimg.cc/MG40hxhz/IMG-20260429-233431.png"
-          alt="Heavy Haul Truck in USA"
+          src="https://i.postimg.cc/L80n2d6B/IMG-20260429-233431.png"
+          alt="Heavy Haul Operations"
           className="w-full h-full object-cover opacity-60"
           referrerPolicy="no-referrer"
         />
@@ -916,6 +916,11 @@ const OPERATIONAL_ROLES = [
     role: "24/7 Dispatch Command",
     description: "Our mission control center provides real-time GPS tracking and instant driver support through any terrain.",
     icon: <Clock className="w-6 h-6" />
+  },
+  {
+    role: "Administrative Support",
+    description: "Ensuring all back-office logistics, invoicing, and fleet documentation are handled with precision.",
+    icon: <FileText className="w-6 h-6" />
   },
   {
     role: "Loading Masters",
