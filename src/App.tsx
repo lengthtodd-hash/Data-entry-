@@ -1054,7 +1054,7 @@ const Footer = () => (
           <ul className="space-y-6 text-sm text-zinc-400 font-light">
             <li className="flex gap-4 items-start">
               <MapPin className="w-5 h-5 opacity-50 shrink-0" />
-              <span>482 Industrial Way, <br />Houston, TX 77002</span>
+              <span>1500 Overland Ct, <br />West Sacramento, CA 95691</span>
             </li>
             <li className="flex gap-4 items-center">
               <Phone className="w-5 h-5 opacity-50 shrink-0" />
