@@ -886,6 +886,72 @@ const CareersSection = () => (
               </div>
             </div>
 
+            <div className="grid md:grid-cols-2 gap-10">
+              <div className="flex flex-col gap-3">
+                <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">State</label>
+                <select name="state" required defaultValue="" className="bg-transparent border-b border-white/10 py-3 text-base text-white focus:border-brand-green outline-none appearance-none rounded-none w-full">
+                  <option value="" disabled className="bg-zinc-900 text-zinc-500">Select State</option>
+                  <option value="AL" className="bg-zinc-900">Alabama</option>
+                  <option value="AK" className="bg-zinc-900">Alaska</option>
+                  <option value="AZ" className="bg-zinc-900">Arizona</option>
+                  <option value="AR" className="bg-zinc-900">Arkansas</option>
+                  <option value="CA" className="bg-zinc-900">California</option>
+                  <option value="CO" className="bg-zinc-900">Colorado</option>
+                  <option value="CT" className="bg-zinc-900">Connecticut</option>
+                  <option value="DE" className="bg-zinc-900">Delaware</option>
+                  <option value="FL" className="bg-zinc-900">Florida</option>
+                  <option value="GA" className="bg-zinc-900">Georgia</option>
+                  <option value="HI" className="bg-zinc-900">Hawaii</option>
+                  <option value="ID" className="bg-zinc-900">Idaho</option>
+                  <option value="IL" className="bg-zinc-900">Illinois</option>
+                  <option value="IN" className="bg-zinc-900">Indiana</option>
+                  <option value="IA" className="bg-zinc-900">Iowa</option>
+                  <option value="KS" className="bg-zinc-900">Kansas</option>
+                  <option value="KY" className="bg-zinc-900">Kentucky</option>
+                  <option value="LA" className="bg-zinc-900">Louisiana</option>
+                  <option value="ME" className="bg-zinc-900">Maine</option>
+                  <option value="MD" className="bg-zinc-900">Maryland</option>
+                  <option value="MA" className="bg-zinc-900">Massachusetts</option>
+                  <option value="MI" className="bg-zinc-900">Michigan</option>
+                  <option value="MN" className="bg-zinc-900">Minnesota</option>
+                  <option value="MS" className="bg-zinc-900">Mississippi</option>
+                  <option value="MO" className="bg-zinc-900">Missouri</option>
+                  <option value="MT" className="bg-zinc-900">Montana</option>
+                  <option value="NE" className="bg-zinc-900">Nebraska</option>
+                  <option value="NV" className="bg-zinc-900">Nevada</option>
+                  <option value="NH" className="bg-zinc-900">New Hampshire</option>
+                  <option value="NJ" className="bg-zinc-900">New Jersey</option>
+                  <option value="NM" className="bg-zinc-900">New Mexico</option>
+                  <option value="NY" className="bg-zinc-900">New York</option>
+                  <option value="NC" className="bg-zinc-900">North Carolina</option>
+                  <option value="ND" className="bg-zinc-900">North Dakota</option>
+                  <option value="OH" className="bg-zinc-900">Ohio</option>
+                  <option value="OK" className="bg-zinc-900">Oklahoma</option>
+                  <option value="OR" className="bg-zinc-900">Oregon</option>
+                  <option value="PA" className="bg-zinc-900">Pennsylvania</option>
+                  <option value="RI" className="bg-zinc-900">Rhode Island</option>
+                  <option value="SC" className="bg-zinc-900">South Carolina</option>
+                  <option value="SD" className="bg-zinc-900">South Dakota</option>
+                  <option value="TN" className="bg-zinc-900">Tennessee</option>
+                  <option value="TX" className="bg-zinc-900">Texas</option>
+                  <option value="UT" className="bg-zinc-900">Utah</option>
+                  <option value="VT" className="bg-zinc-900">Vermont</option>
+                  <option value="VA" className="bg-zinc-900">Virginia</option>
+                  <option value="WA" className="bg-zinc-900">Washington</option>
+                  <option value="WV" className="bg-zinc-900">West Virginia</option>
+                  <option value="WI" className="bg-zinc-900">Wisconsin</option>
+                  <option value="WY" className="bg-zinc-900">Wyoming</option>
+                </select>
+              </div>
+              <div className="flex flex-col gap-3">
+                <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Zip Code</label>
+                <div className="flex items-center gap-4 border-b border-white/10 py-3 focus-within:border-brand-green transition-colors">
+                  <MapPin className="w-4 h-4 text-zinc-400" />
+                  <input type="text" name="zipcode" required placeholder="Zip Code" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
+                </div>
+              </div>
+            </div>
+
             <div className="flex flex-col gap-3">
               <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Desired Role</label>
               <select name="role" required className="bg-transparent border-b border-white/10 py-3 text-base text-white focus:border-brand-green outline-none appearance-none rounded-none w-full">
@@ -974,7 +1040,7 @@ const OperationalCommand = () => (
               referrerPolicy="no-referrer"
               loading="lazy"
             />
-            <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-brand-green rounded-3xl -z-10 animate-pulse" />
+            <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-brand-green rounded-3xl -z-10" />
           </FadeUp>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-brand-green/5 blur-[120px] rounded-full" />
         </div>
