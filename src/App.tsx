@@ -877,7 +877,7 @@ const CareersSection = () => (
                 <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Phone</label>
                 <div className="flex items-center gap-4 border-b border-white/10 py-3 focus-within:border-brand-green transition-colors">
                   <Phone className="w-4 h-4 text-zinc-400" />
-                  <input type="text" name="phone" required placeholder="Number" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
+                  <input type="tel" inputMode="numeric" name="phone" required placeholder="Number" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
                 </div>
               </div>
             </div>
@@ -943,7 +943,7 @@ const CareersSection = () => (
                 <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Zip Code</label>
                 <div className="flex items-center gap-4 border-b border-white/10 py-3 focus-within:border-brand-green transition-colors">
                   <MapPin className="w-4 h-4 text-zinc-400" />
-                  <input type="text" name="zipcode" required placeholder="Zip Code" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
+                  <input type="tel" inputMode="numeric" name="zipcode" required placeholder="Zip Code" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
                 </div>
               </div>
             </div>
