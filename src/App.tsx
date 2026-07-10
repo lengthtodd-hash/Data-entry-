@@ -12,10 +12,6 @@ import {
   Clock, 
   Phone, 
   Mail, 
-  Facebook, 
-  Twitter, 
-  Linkedin, 
-  Instagram,
   ArrowRight,
   Menu,
   X,
@@ -1097,13 +1093,6 @@ const Footer = () => (
           <p className="text-zinc-500 text-sm font-light leading-relaxed mb-8">
             Specialized heavy-haul and logistics solutions for the energy, construction, and manufacturing industries. Strength you can rely on.
           </p>
-          <div className="flex gap-3">
-            {[Facebook, Twitter, Linkedin, Instagram].map((Icon, i) => (
-               <a key={i} href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:bg-brand-green hover:text-white hover:border-brand-green transition-colors">
-                 <Icon className="w-4 h-4" />
-               </a>
-            ))}
-          </div>
         </div>
 
         <div>
