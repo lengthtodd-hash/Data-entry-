@@ -5,7 +5,6 @@
 
 import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
 import { 
-  Truck, 
   ShieldCheck, 
   Globe, 
   MapPin, 
@@ -29,9 +28,21 @@ import {
   Pickaxe,
   PlaneTakeoff,
   Cpu,
-  Users
+  Users,
+  Thermometer,
+  Dna,
+  Network,
+  FlaskConical,
+  Hospital,
+  Heart
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+
+import trialImg from "./assets/images/clinical_logistics_trial_1784378921272.jpg";
+import cryoImg from "./assets/images/clinical_logistics_cryo_1784378935487.jpg";
+import custodyImg from "./assets/images/clinical_logistics_custody_1784378948983.jpg";
+import networkImg from "./assets/images/clinical_logistics_network_1784378962882.jpg";
+import heroBgImg from "./assets/images/clinical_hero_bg_1784384987976.jpg";
 
 // Types
 interface Service {
@@ -52,116 +63,82 @@ interface Industry {
 // Data
 const SERVICES: Service[] = [
   {
-    title: "Heavy Equipment",
-    description: "Reliable transport for heavy machinery such as excavators, bulldozers, and cranes.",
-    icon: <Weight className="w-5 h-5" />,
-    image: "https://i.postimg.cc/J4FsWVh1/IMG-20260430-001335.png",
-    details: "Our heavy equipment transport service is designed to move your largest and most cumbersome machinery safely and efficiently. We utilize specialized multi-axle trailers and follow strict safety protocols.",
-    features: ["Oversize load permitting", "Route surveys and pilot cars", "Multi-axle RGN trailers", "$5M cargo insurance coverage"]
+    title: "Clinical Trial Logistics",
+    description: "We provide specialized, \"white-glove\" transport services dedicated exclusively to clinical trial materials, ensuring secure and seamless movement between laboratories and research institutes.",
+    icon: <FileText className="w-5 h-5" />,
+    image: trialImg,
+    details: "Our white-glove clinical trial logistics are designed for absolute safety and timing. We handle everything from pre-trial site setups to temperature-controlled transit of biospecimens, ensuring your study meets every critical milestone.",
+    features: ["cGMP & GDP compliant chain", "Active & passive shippers", "Real-time temperature telemetry", "Priority airport handling"]
   },
   {
-    title: "Small/Medium Equipment",
-    description: "Efficient delivery of skid steers, generators, and compact agricultural tools.",
-    icon: <Layers className="w-5 h-5" />,
-    image: "https://i.postimg.cc/PJ0nSkWw/1777506979268.png",
-    details: "Perfect for construction sites and agricultural setups. We ensure rapid, reliable deployment of your skid steers, generators, and compact tools directly to where they are needed.",
-    features: ["Same-day & next-day options", "Flatbed and step-deck trailers", "Load securement tracking", "Door-to-door delivery"]
+    title: "Cryogenic Cell Transport",
+    description: "Our fleet utilizes advanced cryogenic infrastructure, providing validated, ultra-low temperature environments (below –150°C) essential for maintaining the viability of cell-based therapies.",
+    icon: <Thermometer className="w-5 h-5" />,
+    image: cryoImg,
+    details: "Maintaining temperatures below –150°C is critical for cell-therapy viability. We use validated liquid nitrogen dry vapor shippers equipped with redundant sensor arrays and GPS tracking to safeguard structural viability at every stage.",
+    features: ["Ultra-low temperature (< -150°C)", "LN2 dry vapor shipper tracking", "Continuous tilt & temperature logs", "Validated thermal durability"]
   },
   {
-    title: "Vehicle",
-    description: "Secure auto transport for everything from sedans to heavy-duty trucks.",
-    icon: <Truck className="w-5 h-5" />,
-    image: "https://i.postimg.cc/KvY1V7nL/1777507527335.png",
-    details: "Whether you're moving a solitary vehicle, a corporate fleet, or heavy-duty commercial trucks, our specialized auto haulers guarantee safe and timely, scratch-free delivery.",
-    features: ["Open and enclosed transport", "Fleet relocation services", "Winch-on/winch-off capability", "Real-time GPS tracking"]
+    title: "Chain of Custody Management",
+    description: "We manage rigorous, audit-ready digital tracking and documentation systems, ensuring that every biological asset is fully accounted for and protected from laboratory to clinical site.",
+    icon: <ShieldCheck className="w-5 h-5" />,
+    image: custodyImg,
+    details: "Our secure digital registry tracks chain of custody and chain of identity flawlessly. We provide continuous digital logs, audit-ready documentation, and real-time alerts to guarantee absolute transparency and zero-loss handling.",
+    features: ["Audit-ready compliance reports", "Chain of identity validation", "Tamper-evident sealing", "Biometric custody handovers"]
   },
   {
-    title: "Boat",
-    description: "Specialized trailers and harnesses for safe transportation of marine vessels.",
-    icon: <Anchor className="w-5 h-5" />,
-    image: "https://i.postimg.cc/Pq0cGMLS/IMG-20260430-012156.png",
-    details: "Marine vessels require specific handling. We provide custom cradles, specialized low-boy trailers, and experienced maritime logistics coordinators to ensure your boat reaches the water safely.",
-    features: ["Custom hull support cradles", "Shrink-wrapping solutions", "Marina-to-marina transport", "Over-height routing expertise"]
-  },
-  {
-    title: "Container/Freight Shipping",
-    description: "Port-to-door container hauling and comprehensive freight shipping solutions.",
-    icon: <Globe className="w-5 h-5" />,
-    image: "https://i.postimg.cc/vZN29vvv/1777508330680.png",
-    details: "We seamlessly connect major ports to your facility. Our intermodal drayage and direct freight services handle standard, refrigerated, and high-cube containers.",
-    features: ["Port drayage (TWIC certified)", "Customs clearance assistance", "FCL and LCL options", "Cross-docking facilities"]
-  },
-  {
-    title: "Mobile House",
-    description: "Expert routing and handling for safe relocation of mobile and modular homes.",
-    icon: <Home className="w-5 h-5" />,
-    image: "https://i.postimg.cc/W1CSt12z/IMG-20260430-012829.png",
-    details: "Relocating modular or mobile homes involves highly complex logistics. Our team manages teardown, transport, and setup coordination, securing all necessary escort vehicles.",
-    features: ["Escort and pilot vehicle dispatch", "Pre-transport structural inspection", "Municipal permitting", "Toter truck fleets"]
-  },
-  {
-    title: "Small Box",
-    description: "Expedited less-than-truckload (LTL) services for smaller freight and packages.",
-    icon: <Package className="w-5 h-5" />,
-    image: "https://i.postimg.cc/KvsDs8gx/IMG-20260430-013151.png",
-    details: "For smaller shipments that don't require a full trailer, our LTL service offers an economical yet expedited solution with regular routes and consolidated shipping.",
-    features: ["Expedited LTL networks", "Palletized freight handling", "Liftgate pickup and delivery", "Consolidation savings"]
+    title: "Clinical Network Coordination",
+    description: "We establish and operate dedicated transport lanes, specifically engineered to connect Oloker’s manufacturing facilities directly to approved medical centers and research partners.",
+    icon: <Network className="w-5 h-5" />,
+    image: networkImg,
+    details: "By establishing dedicated high-security logistics corridors, we connect advanced therapy manufacturing suites directly with clinical trials centers. This eliminates transfer delays and secures the transit pipeline.",
+    features: ["Direct factory-to-clinic routes", "Dedicated specialist couriers", "Interstate regulatory clearances", "24/7 priority routing management"]
   }
 ];
 
 const INDUSTRIES: Industry[] = [
   {
-    name: "Construction",
-    description: "Transport of heavy earthmoving equipment, massive steel structures, and vital building materials directly to active site locations.",
-    icon: <Building2 className="w-8 h-8" />
+    name: "Clinical Research Institutes",
+    description: "Providing secure, compliant, and time-critical logistics for research centers engaged in advanced cellular therapy studies.",
+    icon: <FlaskConical className="w-8 h-8" />
   },
   {
-    name: "Agriculture",
-    description: "Reliable movement of tractors, harvesters, and oversize farm machinery to keep agricultural operations running seamlessly.",
-    icon: <Tractor className="w-8 h-8" />
+    name: "Biotechnology & Pharma",
+    description: "Dedicated transport solutions for biotechnology partners, ensuring the integrity of sensitive, high-value Advanced Therapy Medicinal Products (ATMPs).",
+    icon: <Dna className="w-8 h-8" />
   },
   {
-    name: "Manufacturing",
-    description: "Specialized logistics for CNC machines, industrial presses, and sensitive robotic assembly lines.",
-    icon: <Factory className="w-8 h-8" />
+    name: "Clinical Trial Sites",
+    description: "Reliable, GDP-compliant distribution of clinical materials directly to medical centers and authorized trial sites.",
+    icon: <Hospital className="w-8 h-8" />
   },
   {
-    name: "Energy & Mining",
-    description: "Rigging and hauling for wind turbine components, oil rig machinery, and heavy extraction units.",
-    icon: <Pickaxe className="w-8 h-8" />
-  },
-  {
-    name: "Aerospace",
-    description: "Precision transport for aircraft fuselages, engines, and extremely sensitive orbital equipment.",
-    icon: <PlaneTakeoff className="w-8 h-8" />
-  },
-  {
-    name: "Infrastructure",
-    description: "Dedicated hauling for bridge beams, tunnel boring machines, and massive concrete culverts.",
-    icon: <Cpu className="w-8 h-8" />
+    name: "Regenerative Medicine Hubs",
+    description: "Specialized cold-chain logistics for the movement of cardiac progenitor cells and other regenerative medicine assets between development and clinical deployment.",
+    icon: <Heart className="w-8 h-8" />
   }
 ];
 
 const PROCESS_STEPS = [
   {
     number: "01",
-    title: "Consultation & Planning",
-    description: "We begin with a thorough assessment of your cargo, route requirements, and timeline to engineer the optimal transport strategy."
+    title: "Consultation & Strategy",
+    description: "We begin with a thorough assessment of your specific therapy requirements, transit sensitivity, and time-critical delivery windows to engineer an optimal transport strategy."
   },
   {
     number: "02",
-    title: "Permitting & Compliance",
-    description: "Our compliance team handles all state, federal, and local permits, ensuring smooth interstate transit without regulatory delays."
+    title: "Regulatory & Quality Compliance",
+    description: "Our team manages all GDP-required certifications and documentation, ensuring full compliance and frictionless transit through medical and research regulatory gateways."
   },
   {
     number: "03",
-    title: "Secure Loading & Dispatch",
-    description: "Expert riggers and loading masters secure your equipment using specialized harnesses before dispatching our elite drivers."
+    title: "Secure Loading & Real-Time Monitoring",
+    description: "Expert clinical technicians secure your material using validated cryogenic shippers before dispatching via our monitored, white-glove transport network."
   },
   {
     number: "04",
-    title: "Delivery & Unloading",
-    description: "Upon arrival, we oversee the precise offloading process, verifying payload integrity and ensuring complete client satisfaction."
+    title: "Controlled Delivery & Verification",
+    description: "Upon arrival, we oversee the precise handover process, verifying the Chain of Custody and confirming payload integrity to ensure the material is ready for immediate clinical use."
   }
 ];
 
@@ -257,7 +234,7 @@ const Navbar = () => {
             href="#quote" 
             className={`px-6 py-3 rounded-full border transition-all duration-300 ${isScrolled ? "border-brand-green text-brand-green hover:bg-brand-green hover:text-white" : "border-white/30 text-white hover:bg-white hover:text-brand-green"}`}
           >
-            Get a Quote
+            Clinical Consultation
           </a>
         </div>
 
@@ -301,8 +278,8 @@ const Hero = () => {
           initial={{ scale: 1.05 }}
           animate={{ scale: 1 }}
           transition={{ duration: 4, ease: "easeOut" }}
-          src="https://i.postimg.cc/L80n2d6B/IMG-20260429-233431.png"
-          alt="Heavy Haul Operations"
+          src={heroBgImg}
+          alt="Clinical and Research Logistics"
           className="w-full h-full object-cover opacity-60"
           referrerPolicy="no-referrer"
           fetchPriority="high"
@@ -321,7 +298,7 @@ const Hero = () => {
             <div className="flex items-center gap-4 mb-8">
               <div className="w-12 h-px bg-brand-gold/60" />
               <span className="text-brand-gold font-medium tracking-[0.3em] uppercase text-[9px]">
-                Elite Heavy Logistics
+                CLINICAL & RESEARCH LOGISTICS
               </span>
             </div>
           </motion.div>
@@ -332,8 +309,8 @@ const Hero = () => {
             transition={{ duration: 1, delay: 0.4, ease: easeExpoOut }}
             className="text-5xl md:text-7xl lg:text-[90px] font-display font-light text-white leading-[1.05] tracking-tight mb-8"
           >
-            Precision Logistics.<br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/40">Uncompromising Scale.</span>
+            Precision Logistics for<br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/40">Advanced Cell Therapies</span>
           </motion.h1>
           
           <motion.p 
@@ -342,7 +319,7 @@ const Hero = () => {
             transition={{ duration: 1, delay: 0.6, ease: easeExpoOut }}
             className="text-zinc-400 text-lg md:text-xl font-light mb-14 max-w-xl leading-relaxed"
           >
-            Specialized logistics and oversized hauling solutions engineered for the world's most demanding industries.
+            The specialized, clinical grade logistics division of Oloker Therapeutics, dedicated to the secure, temperature controlled transport of sensitive biological materials for research and clinical trials.
           </motion.p>
           
           <motion.div 
@@ -391,16 +368,16 @@ const About = () => {
 
   const modalContent = {
     about: {
-      title: "Our Heritage & Expertise",
-      content: "Airva Green was founded on the principle that the most challenging cargo deserves the most meticulous care. We don't just move equipment; we move the infrastructure of tomorrow. From wind turbine blades to multi-ton industrial machinery, our team of veteran drivers and specialized logistics coordinators ensures your oversized load arrives safely, on time, and within regulation."
+      title: "Our Mission & Clinical Standards",
+      content: "AirvaGreen was established as the dedicated logistics division of Oloker Therapeutics to ensure the highest standards of safety for Advanced Therapy Medicinal Products (ATMPs). We do not provide public transport; we exclusively manage the secure, temperature controlled chain of custody required for Oloker’s innovative cardiac therapies. Our logistics framework is designed specifically for research institutes and clinical partners, ensuring that every shipment destined solely for authorized clinical trials reaches its destination with total integrity and regulatory compliance"
     },
     safety: {
-      title: "Global Safety Standards",
-      content: "Our safety standards are unmatched in the industry. We are fully OSHA compliant and utilize advanced pilot car protocols, including pre-route analysis and structural bridge assessments. Every driver undergoes rigorous specialized training to handle the unique physics of oversized loads, ensuring zero-incident transit for your most critical assets."
+      title: "Clinical Integrity & Compliance",
+      content: "Adherence to cGMP/GDP standards and rigorous, audit-ready chain-of-identity protocols."
     },
     jobs: {
-      title: "Job Board: Specialized Opportunities",
-      content: "Precision Heavy Haul is looking for elite talent. Current openings include:\n\n• Heavy Haul Logistics Coordinator\n• Specialized Route Engineer\n• Industrial Cargo Compliance Officer\n• Certified Pilot Car Lead\n• Data entry and record management\n\nWe provide industry-leading compensation and a culture built on engineering precision. Join the team that moves the impossible."
+      title: "Clinical Trial Support",
+      content: "Streamlined coordination for clinical trial enrollment, ensuring secure, time-critical delivery to research partners."
     }
   };
 
@@ -443,38 +420,24 @@ const About = () => {
         <div className="relative">
           <motion.div style={{ y }} className="relative z-10">
             <img 
-              src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Oversize_Bridge_Beam_-_LONG.jpg"
-              alt="Heavy Logistics Operations"
+              src={cryoImg}
+              alt="Clinical Cryogenic Transport"
               className="rounded-3xl shadow-2xl"
               referrerPolicy="no-referrer"
               loading="lazy"
             />
           </motion.div>
           <div className="absolute -bottom-10 -right-10 w-full h-full bg-zinc-100 rounded-3xl -z-0" />
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.2, ease: easeExpoOut }}
-            className="absolute -left-8 top-1/4 bg-white p-8 shadow-[0_20px_40px_-5px_rgba(0,0,0,0.1)] rounded-2xl z-20 border border-zinc-50 cursor-pointer group"
-            onClick={() => setActiveModal('about')}
-          >
-            <div className="text-5xl font-display font-medium text-brand-green mb-1 tracking-tight">20+</div>
-            <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-zinc-500 group-hover:text-brand-gold transition-colors">Years of Mastery</div>
-          </motion.div>
         </div>
         
         <div>
           <SectionHeader 
-            subtitle="Our Heritage"
-            title="Precision in Every Turn"
+            subtitle="Our Mission & Clinical Standards"
+            title="Precision in Clinical Integrity"
           />
           <StaggerGroup className="space-y-6 text-zinc-600 font-light leading-relaxed text-lg">
             <StaggerItem className="cursor-pointer hover:text-zinc-900 transition-colors" onClick={() => setActiveModal('about')}>
-              Airva Green was founded on the principle that the most challenging cargo deserves the most meticulous care. We don't just move equipment; we move the infrastructure of tomorrow.
-            </StaggerItem>
-            <StaggerItem>
-              From wind turbine blades to multi-ton industrial machinery, our team of veteran drivers and specialized logistics coordinators ensures your oversized load arrives safely, on time, and within regulation.
+              AirvaGreen was established as the dedicated logistics division of Oloker Therapeutics to ensure the highest standards of safety for Advanced Therapy Medicinal Products (ATMPs). We do not provide public transport; we exclusively manage the secure, temperature controlled chain of custody required for Oloker’s innovative cardiac therapies. Our logistics framework is designed specifically for research institutes and clinical partners, ensuring that every shipment destined solely for authorized clinical trials reaches its destination with total integrity and regulatory compliance
             </StaggerItem>
           </StaggerGroup>
           
@@ -484,8 +447,8 @@ const About = () => {
                 <ShieldCheck className="w-5 h-5 text-brand-green group-hover:text-white" />
               </div>
               <div>
-                <div className="font-semibold text-zinc-900 mb-1 group-hover:text-brand-green">Global Safety Standards</div>
-                <div className="text-zinc-500 text-sm font-light">Certified OSHA compliance and advanced pilot car protocols.</div>
+                <div className="font-semibold text-zinc-900 mb-1 group-hover:text-brand-green">Clinical Integrity & Compliance</div>
+                <div className="text-zinc-500 text-sm font-light">Adherence to cGMP/GDP standards and rigorous, audit-ready chain-of-identity protocols.</div>
               </div>
             </StaggerItem>
             <StaggerItem className="flex flex-col gap-4 cursor-pointer group" onClick={() => setActiveModal('jobs')}>
@@ -493,8 +456,8 @@ const About = () => {
                 <Users className="w-5 h-5 text-brand-green group-hover:text-white" />
               </div>
               <div>
-                <div className="font-semibold text-zinc-900 mb-1 group-hover:text-brand-green">Job Board</div>
-                <div className="text-zinc-500 text-sm font-light">Dedicated executive oversight on complex logistical maneuvers.</div>
+                <div className="font-semibold text-zinc-900 mb-1 group-hover:text-brand-green">Clinical Trial Support</div>
+                <div className="text-zinc-500 text-sm font-light">Streamlined coordination for clinical trial enrollment, ensuring secure, time-critical delivery to research partners.</div>
               </div>
             </StaggerItem>
           </StaggerGroup>
@@ -522,16 +485,16 @@ const Services = () => {
       <div className="absolute -left-40 top-40 w-[500px] h-[500px] bg-brand-green/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
         <SectionHeader 
-          subtitle="Specializations"
-          title="Our Core Capabilities"
-          description="We offer a range of premium specialized services designed to handle the complexities of oversized and heavy-duty logistics."
+          subtitle="Core Capabilities"
+          title="Clinical Logistics Solutions"
+          description="Specialized, temperature-controlled transit frameworks engineered for the absolute security and safety of sensitive therapeutic assets."
         />
 
-        <StaggerGroup className="grid md:grid-cols-3 gap-8">
+        <StaggerGroup className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {SERVICES.map((s, idx) => (
             <StaggerItem 
               key={idx}
-              className={`group bg-white rounded-[32px] overflow-hidden transition-all duration-500 relative border border-zinc-100 hover:border-brand-green/20 shadow-sm hover:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] ${idx === 3 || idx === 4 ? "md:col-span-1.5" : ""}`}
+              className="group bg-white rounded-[32px] overflow-hidden transition-all duration-500 relative border border-zinc-100 hover:border-brand-green/20 shadow-sm hover:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)]"
             >
               <div className="h-56 overflow-hidden relative">
                 <img 
@@ -642,11 +605,11 @@ const Trust = () => (
     <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
       <StaggerGroup className="grid grid-cols-2 md:grid-cols-5 gap-12 text-center">
         {[
-          { icon: <User className="w-6 h-6" />, label: "Elite Drivers" },
-          { icon: <Truck className="w-6 h-6" />, label: "Modern Fleet" },
-          { icon: <ShieldCheck className="w-6 h-6" />, label: "Flawless Record" },
-          { icon: <Globe className="w-6 h-6" />, label: "Continental Scope" },
-          { icon: <Clock className="w-6 h-6" />, label: "24/7 Dispatch" },
+          { icon: <User className="w-6 h-6" />, label: "Trained Specialists" },
+          { icon: <Thermometer className="w-6 h-6" />, label: "Advanced Cryogenic Fleet" },
+          { icon: <ShieldCheck className="w-6 h-6" />, label: "Integrity Assured" },
+          { icon: <Globe className="w-6 h-6" />, label: "Research Network" },
+          { icon: <Clock className="w-6 h-6" />, label: "24/7 Clinical Monitoring" },
         ].map((item, idx) => (
           <StaggerItem key={idx} className="flex flex-col items-center gap-5 group">
             <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white/50 group-hover:text-brand-gold group-hover:border-brand-gold/50 transition-all duration-500 relative overflow-hidden">
@@ -668,15 +631,15 @@ const WhyChooseUs = () => (
       <SectionHeader 
         subtitle="The Airva Advantage"
         title="Why Choose Us"
-        description="We combine decades of experience with modern logistics technology to ensure your most critical cargo arrives safely and on schedule."
+        description="As the clinical logistics division of Oloker Therapeutics, we combine advanced medical transport technology with a singular focus: ensuring the safe, compliant, and time-critical delivery of Oloker's breakthrough cellular technologies to research institutes and clinical partners."
       />
       <StaggerGroup className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 mt-16">
         {[
-          { icon: <User className="w-6 h-6" />, title: "Experienced Drivers", desc: "Our elite operators are certified for the most complex oversized routes." },
-          { icon: <Truck className="w-6 h-6" />, title: "Modern Fleet", desc: "State-of-the-art modular trailers and heavy-duty tractors." },
-          { icon: <ShieldCheck className="w-6 h-6" />, title: "Safe & Reliable", desc: "An uncompromising commitment to zero incidents and payload integrity." },
-          { icon: <MapPin className="w-6 h-6" />, title: "Nationwide Coverage", desc: "Seamless interstate transport handled by specialized pilot cars." },
-          { icon: <Phone className="w-6 h-6" />, title: "24/7 Support", desc: "Always-on dispatch desk dedicated to your shipment's journey." }
+          { icon: <User className="w-6 h-6" />, title: "Trained Clinical Specialists", desc: "Our team is specifically trained in the protocols required to handle sensitive, high-value biological materials." },
+          { icon: <Thermometer className="w-6 h-6" />, title: "Advanced Cryogenic Infrastructure", desc: "State of the art temperature controlled transport validated for cell therapy viability." },
+          { icon: <ShieldCheck className="w-6 h-6" />, title: "Chain of Identity Assurance", desc: "An uncompromising commitment to total product integrity and strict regulatory compliance." },
+          { icon: <MapPin className="w-6 h-6" />, title: "Clinical Network Connectivity", desc: "Seamless, specialized transport connecting your lab to designated research and clinical sites." },
+          { icon: <Phone className="w-6 h-6" />, title: "24/7 Clinical Monitoring", desc: "Real-time, around the clock oversight dedicated to the safety of therapeutic shipment." }
         ].map((item, idx) => (
           <StaggerItem key={idx} className="flex gap-6 items-start bg-white p-8 rounded-3xl border border-zinc-100 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
             <div className="w-12 h-12 rounded-full bg-white/50 border border-white/60 flex flex-shrink-0 items-center justify-center text-brand-green shadow-sm">
@@ -699,8 +662,8 @@ const Process = () => (
     <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
       <SectionHeader 
         subtitle="Methodology"
-        title="How We Deliver Excellence"
-        description="A systematic, engineered approach to heavy haul logistics ensuring precision from origin to destination."
+        title="Our Clinical Transport Methodology"
+        description="A systematic, audited approach to clinical logistics ensuring total therapeutic integrity from laboratory to research site."
       />
       
       <StaggerGroup className="grid md:grid-cols-4 gap-8 mt-16">
@@ -721,98 +684,62 @@ const Process = () => (
   </section>
 );
 
-const FormField = ({ label, type = "text", placeholder, options, name, required = true }: any) => (
-  <div className="flex flex-col gap-2">
-    <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em]">{label}</label>
-    {type === "select" ? (
-      <select name={name} required={required} className="bg-transparent border-b border-zinc-200 py-3 text-sm focus:border-brand-green outline-none transition-colors text-zinc-900 rounded-none w-full">
-        {options.map((o: any) => <option key={o}>{o}</option>)}
-      </select>
-    ) : type === "textarea" ? (
-      <textarea name={name} required={required} rows={3} placeholder={placeholder} className="bg-transparent border-b border-zinc-200 py-3 text-sm focus:border-brand-green outline-none transition-colors text-zinc-900 placeholder:text-zinc-300 resize-none rounded-none w-full" />
-    ) : (
-      <input type={type} name={name} required={required} placeholder={placeholder} className="bg-transparent border-b border-zinc-200 py-3 text-sm focus:border-brand-green outline-none transition-colors text-zinc-900 placeholder:text-zinc-300 rounded-none w-full" />
-    )}
-  </div>
-);
-
 const QuoteSection = () => (
   <section id="quote" className="py-24 bg-zinc-50 relative overflow-hidden scroll-mt-20">
     <div className="absolute right-0 top-0 w-[600px] h-[600px] bg-brand-gold/10 rounded-full blur-[150px] pointer-events-none" />
     <div className="absolute left-0 bottom-0 w-[400px] h-[400px] bg-brand-green/5 rounded-full blur-[100px] pointer-events-none" />
     
-    <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
-      <FadeUp className="rounded-3xl overflow-hidden flex flex-col lg:flex-row shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] transition-shadow duration-500 hover:shadow-[0_48px_80px_-24px_rgba(0,0,0,0.15)] bg-white border border-zinc-100">
-        <div className="p-12 md:p-16 lg:w-2/5 bg-brand-green-dark text-white relative flex flex-col justify-between overflow-hidden">
+    <div className="max-w-5xl mx-auto px-4 md:px-8 relative z-10">
+      <FadeUp className="rounded-[40px] overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.12)] transition-shadow duration-500 hover:shadow-[0_48px_80px_-24px_rgba(0,0,0,0.18)] bg-brand-green-dark text-white border border-white/5">
+        <div className="p-12 md:p-16 relative overflow-hidden">
           <div className="absolute -top-24 -right-24 w-64 h-64 bg-brand-green/20 rounded-full blur-[80px]" />
           <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-brand-gold/10 rounded-full blur-[60px]" />
           <div className="absolute inset-0 industrial-grid opacity-[0.03]" />
           
-          <div className="relative z-10">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-8 h-px bg-brand-gold" />
-              <span className="text-brand-gold font-bold uppercase text-[10px] tracking-[0.3em]">Instant Proposal</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-display font-light mb-6 tracking-tight">Precision Logistics Quote</h2>
-            <p className="text-zinc-400 font-light leading-relaxed mb-12 text-lg">
-              Our specialists evaluate dimensions, weight classes, and route complexities to provide an engineered proposal.
-            </p>
-            <ul className="space-y-6">
-              {[
-                "Complimentary Route Assessment",
-                "Full Permit Coordination",
-                "Custom Fleet Allocation",
-                "Dedicated Logistics Lead"
-              ].map(item => (
-                <li key={item} className="flex items-center gap-4 text-sm font-medium text-zinc-300 group">
-                  <div className="w-8 h-8 rounded-full border border-white/10 bg-white/5 flex items-center justify-center shrink-0 transition-colors group-hover:border-brand-gold/50">
-                    <ArrowUpRight className="w-3.5 h-3.5 text-brand-gold" />
-                  </div>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-          
-          <div className="mt-16 pt-10 border-t border-white/5 relative z-10">
-            <div className="flex items-center gap-6">
-              <div className="w-12 h-12 rounded-2xl bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20">
-                <Phone className="w-5 h-5 text-brand-gold" />
+          <div className="relative z-10 flex flex-col md:flex-row justify-between gap-12 items-start md:items-center">
+            <div className="flex-1 max-w-xl">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-8 h-px bg-brand-gold" />
+                <span className="text-brand-gold font-bold uppercase text-[10px] tracking-[0.3em]">Direct Contact</span>
               </div>
-              <div>
-                <div className="text-[10px] uppercase font-bold tracking-[0.2em] text-zinc-500 mb-1">Direct Priority Hotline</div>
-                <div className="text-2xl font-light text-zinc-100">+1 <span className="font-semibold text-brand-gold">442 999 6108</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div className="p-12 md:p-16 lg:w-3/5 bg-white relative">
-          <div className="absolute inset-0 industrial-grid opacity-[0.02] pointer-events-none" />
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-12 relative z-10" action="https://formsubmit.co/airvagreenlogistics@gmail.com" method="POST">
-            <input type="hidden" name="_subject" value="New Freight Quote Request" />
-            <input type="hidden" name="_captcha" value="false" />
-            <FormField label="Full Name" name="name" placeholder="John Doe" />
-            <FormField label="Email Address" type="email" name="email" placeholder="john@company.com" />
-            <FormField label="Phone Number" name="phone" placeholder="+1 442 999 6108" />
-            <FormField label="Type of Load" type="select" name="load_type" options={["Oversized Machinery", "Industrial Vessel", "Construction Equipment", "Aircraft Parts", "Other"]} />
-            <FormField label="Pickup Location" name="pickup" placeholder="City, State" />
-            <FormField label="Delivery Location" name="delivery" placeholder="City, State" />
-            <div className="md:col-span-2">
-              <FormField label="Weight / Dimensions" name="dimensions" placeholder="e.g. 40 Tons, 60ft x 12ft" />
-            </div>
-            <div className="md:col-span-2">
-              <FormField label="Additional Details" name="details" required={false} type="textarea" placeholder="Tell us about any specific handling requirements..." />
-            </div>
-            <div className="md:col-span-2 mt-4 pt-6 border-t border-zinc-100 flex flex-col md:flex-row items-center gap-8">
-              <button type="submit" className="bg-zinc-950 text-white px-12 py-5 rounded-none font-bold uppercase tracking-[0.2em] text-[11px] hover:bg-brand-green transition-all duration-500 w-full md:w-auto inline-flex items-center justify-center gap-4 group shadow-xl active:scale-95">
-                Generate Engineered Quote <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-2" />
-              </button>
-              <p className="text-[10px] text-zinc-400 font-medium uppercase tracking-widest text-center md:text-left">
-                Typically delivered within <span className="text-zinc-600">60 minutes</span>
+              <h2 className="text-3xl md:text-5xl font-display font-light mb-6 tracking-tight">Clinical Transit Consultation</h2>
+              <p className="text-zinc-400 font-light leading-relaxed mb-8 text-base">
+                Our logistics specialists evaluate transit sensitivity, temperature requirements, and research protocols to provide an integrated clinical transport plan.
               </p>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[
+                  "Clinical Transit Assessment",
+                  "Regulatory & GDP Compliance",
+                  "Validated Cryogenic Transport",
+                  "Dedicated Clinical Liaison"
+                ].map(item => (
+                  <li key={item} className="flex items-center gap-3 text-sm font-medium text-zinc-300 group">
+                    <div className="w-6 h-6 rounded-full border border-white/10 bg-white/5 flex items-center justify-center shrink-0 transition-colors group-hover:border-brand-gold/50">
+                      <ArrowUpRight className="w-3 h-3 text-brand-gold" />
+                    </div>
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
-          </form>
+            
+            <div className="shrink-0 w-full md:w-auto pt-8 md:pt-0 md:pl-8 border-t md:border-t-0 md:border-l border-white/10">
+              <div className="flex flex-col gap-6">
+                <div className="w-14 h-14 rounded-2xl bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20">
+                  <Phone className="w-6 h-6 text-brand-gold" />
+                </div>
+                <div>
+                  <div className="text-[10px] uppercase font-bold tracking-[0.2em] text-zinc-500 mb-1">Direct Clinical Support Hotline</div>
+                  <a href="tel:+14429996108" className="text-2xl md:text-3xl font-light text-zinc-100 hover:text-white transition-colors block">
+                    +1 <span className="font-semibold text-brand-gold">442 999 6108</span>
+                  </a>
+                  <p className="text-[10px] text-zinc-400 font-medium uppercase tracking-widest mt-2">
+                    Available <span className="text-brand-gold font-bold">24/7</span> for research partners
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </FadeUp>
     </div>
@@ -827,22 +754,22 @@ const CareersSection = () => (
       <div>
         <SectionHeader 
           subtitle="Careers"
-          title="Join the Elite Heavy Haul Team"
-          description="We're looking for specialized operators and logistical engineers who refuse to compromise on precision and safety."
+          title="Join the AirvaGreen Clinical Logistics Team"
+          description="We are seeking highly skilled clinical logistics coordinators and transport specialists who are dedicated to the precision and integrity required for advanced medical therapies."
         />
         <StaggerGroup className="grid sm:grid-cols-2 gap-6">
           <StaggerItem className="flex flex-col gap-6 p-8 bg-zinc-50 rounded-3xl border border-zinc-100 hover:border-brand-green/30 transition-all duration-500 shadow-sm hover:shadow-xl">
-            <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-md border border-zinc-50"><Clock className="w-6 h-6 text-brand-green" /></div>
+            <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-md border border-zinc-50"><Heart className="w-6 h-6 text-brand-green" /></div>
             <div>
-              <div className="font-semibold text-xl text-zinc-900 mb-2">Flexible Rotations</div>
-              <div className="text-sm text-zinc-500 font-light leading-relaxed">Work-life balance measured in weeks, not days. We value your time.</div>
+              <div className="font-semibold text-xl text-zinc-900 mb-2">Meaningful Impact</div>
+              <div className="text-sm text-zinc-500 font-light leading-relaxed">Join a mission-driven team where your dedication directly facilitates life-saving clinical research and therapeutic access.</div>
             </div>
           </StaggerItem>
           <StaggerItem className="flex flex-col gap-6 p-8 bg-zinc-50 rounded-3xl border border-zinc-100 hover:border-brand-green/30 transition-all duration-500 shadow-sm hover:shadow-xl">
             <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-md border border-zinc-50"><ShieldCheck className="w-6 h-6 text-brand-green" /></div>
             <div>
-              <div className="font-semibold text-xl text-zinc-900 mb-2">Premium Benefits</div>
-              <div className="text-sm text-zinc-500 font-light leading-relaxed">Diamond tier medical, 401k, and profit sharing for all long-term partners.</div>
+              <div className="font-semibold text-xl text-zinc-900 mb-2">Professional Growth & Compliance Training</div>
+              <div className="text-sm text-zinc-500 font-light leading-relaxed">Comprehensive training and certification in GDP, cGMP, and cryogenic handling standards to ensure you remain at the forefront of clinical logistics.</div>
             </div>
           </StaggerItem>
         </StaggerGroup>
@@ -951,11 +878,12 @@ const CareersSection = () => (
             <div className="flex flex-col gap-3">
               <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Desired Role</label>
               <select name="role" required className="bg-transparent border-b border-white/10 py-3 text-base text-white focus:border-brand-green outline-none appearance-none rounded-none w-full">
-                <option className="bg-zinc-900">Specialized Haul Driver</option>
-                <option className="bg-zinc-900">Logistics Coordinator</option>
-                <option className="bg-zinc-900">Route Planner</option>
-                <option className="bg-zinc-900">Diesel Mechanic</option>
-                <option className="bg-zinc-900">Data entry and record management</option>
+                <option className="bg-zinc-900">Clinical Lane Specialist</option>
+                <option className="bg-zinc-900">Clinical Logistics Coordinator</option>
+                <option className="bg-zinc-900">Quality & Regulatory Compliance Specialist</option>
+                <option className="bg-zinc-900">Cryogenic Handling Expert</option>
+                <option className="bg-zinc-900">Chain of Custody Documentation Specialist</option>
+                <option className="bg-zinc-900">Remote Data Entry Specialist</option>
               </select>
             </div>
 
@@ -973,73 +901,55 @@ const CareersSection = () => (
 
 const OPERATIONAL_ROLES = [
   {
-    role: "Route Engineers",
-    description: "Specialists who meticulously map every mile, bridge clearance, and turn radius to ensure zero-obstacle transit.",
-    icon: <MapPin className="w-6 h-6" />
+    role: "Clinical Lane Specialists",
+    description: "Experts who meticulously plan cold-chain routes and air-transit schedules to ensure minimal handling and zero temperature deviations.",
+    icon: <Network className="w-6 h-6" />
   },
   {
-    role: "Compliance Officers",
-    description: "Experts in multi-state permitting, DOT regulations, and international customs to keep your cargo moving legally.",
+    role: "Regulatory & Quality Specialists",
+    description: "Experts in GDP/cGMP standards and international biological material regulations to keep your clinical shipments moving seamlessly.",
     icon: <ShieldCheck className="w-6 h-6" />
   },
   {
-    role: "24/7 Dispatch Command",
-    description: "Our mission control center provides real-time GPS tracking and instant driver support through any terrain.",
+    role: "24/7 Clinical Monitoring",
+    description: "Our control center provides real-time temperature tracking and instant logistics support for high-stakes research materials.",
     icon: <Clock className="w-6 h-6" />
   },
   {
-    role: "Data entry and record management",
-    description: "Ensuring all back-office logistics, invoicing, and fleet documentation are handled with precision.",
+    role: "Chain of Custody Documentation",
+    description: "Ensuring all research records, temperature logs, and trial documentation are managed with medical-grade precision.",
     icon: <FileText className="w-6 h-6" />
   },
   {
-    role: "Loading Masters",
-    description: "Certified rigging professionals who oversee the engineered securement of high-value industrial payloads.",
-    icon: <Weight className="w-6 h-6" />
+    role: "Clinical Handling Experts",
+    description: "Trained professionals who oversee the secure packaging of high-value cellular therapies into validated cryogenic shippers.",
+    icon: <Dna className="w-6 h-6" />
   }
 ];
 
 const OperationalCommand = () => (
   <section id="support" className="py-32 bg-white relative overflow-hidden">
     <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_0%_0%,rgba(6,78,59,0.03),transparent_50%)] pointer-events-none" />
-    <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
-      <div className="flex flex-col lg:flex-row gap-20 items-center">
-        <div className="lg:w-1/2">
-          <SectionHeader 
-            subtitle="Expert Support Staff"
-            title="Operational Command Center"
-            description="Behind every successful heavy haul is a team of specialized engineers and coordinators who anticipate every variable before the engine even starts."
-          />
-          <div className="grid sm:grid-cols-2 gap-x-12 gap-y-10 mt-16">
-            {OPERATIONAL_ROLES.map((role, idx) => (
-              <FadeUp key={idx} delay={idx * 0.1}>
-                <div className="group">
-                  <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-brand-green mb-6 border border-zinc-100 group-hover:bg-brand-green group-hover:text-white transition-all duration-500 group-hover:shadow-lg group-hover:shadow-brand-green/20">
-                    {role.icon}
-                  </div>
-                  <h4 className="text-xl font-bold text-zinc-900 mb-3 tracking-tight">{role.role}</h4>
-                  <p className="text-zinc-500 text-sm font-light leading-relaxed">
-                    {role.description}
-                  </p>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
-        <div className="lg:w-1/2 relative">
-          <FadeUp delay={0.3} className="relative z-10 group">
-            <div className="absolute -inset-4 bg-brand-gold/10 rounded-[40px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-            <img 
-              src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop" 
-              alt="Logistics Command Center" 
-              className="rounded-[40px] shadow-2xl relative z-10 grayscale hover:grayscale-0 transition-all duration-1000"
-              referrerPolicy="no-referrer"
-              loading="lazy"
-            />
-            <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-brand-green rounded-3xl -z-10" />
+    <div className="max-w-5xl mx-auto px-4 md:px-8 relative z-10">
+      <SectionHeader 
+        subtitle="Expert Support Staff"
+        title="Clinical Control Tower"
+        description="Behind every therapeutic delivery is a team of clinical logistics experts who manage every critical variable to ensure product integrity and patient safety."
+      />
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12 mt-16">
+        {OPERATIONAL_ROLES.map((role, idx) => (
+          <FadeUp key={idx} delay={idx * 0.1}>
+            <div className="group">
+              <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-brand-green mb-6 border border-zinc-100 group-hover:bg-brand-green group-hover:text-white transition-all duration-500 group-hover:shadow-lg group-hover:shadow-brand-green/20">
+                {role.icon}
+              </div>
+              <h4 className="text-xl font-bold text-zinc-900 mb-3 tracking-tight">{role.role}</h4>
+              <p className="text-zinc-500 text-sm font-light leading-relaxed">
+                {role.description}
+              </p>
+            </div>
           </FadeUp>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-brand-green/5 blur-[120px] rounded-full" />
-        </div>
+        ))}
       </div>
     </div>
   </section>
@@ -1057,21 +967,21 @@ const Industries = () => (
           <span className="text-brand-gold font-bold uppercase text-[10px] tracking-[0.3em]">Sectors</span>
           <div className="w-12 h-px bg-brand-gold/50" />
         </div>
-        <h2 className="text-4xl md:text-6xl font-display font-light text-white tracking-tight">Industries We Serve</h2>
+        <h2 className="text-4xl md:text-5xl font-display font-light text-white tracking-tight">Clinical Sectors We Serve</h2>
       </div>
 
-      <StaggerGroup className="grid md:grid-cols-3 gap-8">
+      <StaggerGroup className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {INDUSTRIES.map((industry, idx) => (
           <StaggerItem 
             key={idx} 
-            className="p-10 bg-black/20 backdrop-blur-md rounded-3xl border border-white/10 hover:border-brand-gold/30 hover:bg-black/30 transition-all duration-500 flex flex-col items-start group shadow-xl"
+            className="p-8 bg-black/20 backdrop-blur-md rounded-3xl border border-white/10 hover:border-brand-gold/30 hover:bg-black/30 transition-all duration-500 flex flex-col items-start group shadow-xl"
           >
-            <div className="mb-8 p-5 bg-brand-gold/10 text-brand-gold rounded-2xl group-hover:bg-brand-gold group-hover:text-zinc-900 transition-all duration-500 shadow-lg">
+            <div className="mb-6 p-4 bg-brand-gold/10 text-brand-gold rounded-2xl group-hover:bg-brand-gold group-hover:text-zinc-900 transition-all duration-500 shadow-lg shrink-0">
               {industry.icon}
             </div>
-            <h3 className="text-2xl font-semibold text-white mb-4 tracking-tight">{industry.name}</h3>
-            <p className="text-white/60 font-light leading-relaxed text-sm md:text-base group-hover:text-white/80 transition-colors uppercase tracking-widest text-[10px] mb-4">Engineering Precision</p>
-            <p className="text-zinc-300 font-light leading-relaxed text-sm md:text-base">{industry.description}</p>
+            <h3 className="text-xl font-semibold text-white mb-3 tracking-tight leading-snug">{industry.name}</h3>
+            <p className="text-white/60 font-light leading-relaxed text-xs group-hover:text-white/80 transition-colors uppercase tracking-widest mb-4">GDP Compliant</p>
+            <p className="text-zinc-300 font-light leading-relaxed text-sm">{industry.description}</p>
           </StaggerItem>
         ))}
       </StaggerGroup>
@@ -1079,7 +989,7 @@ const Industries = () => (
   </section>
 );
 
-const Footer = () => (
+const Footer = ({ onOpenPolicy }: { onOpenPolicy: (policy: "privacy" | "terms") => void }) => (
   <footer id="contact" className="bg-brand-green-dark text-white pt-24 pb-12">
     <div className="max-w-7xl mx-auto px-4 md:px-8">
       <div className="grid md:grid-cols-4 gap-12 lg:gap-16 mb-20">
@@ -1091,7 +1001,7 @@ const Footer = () => (
             </span>
           </div>
           <p className="text-zinc-500 text-sm font-light leading-relaxed mb-8">
-            Specialized heavy-haul and logistics solutions for the energy, construction, and manufacturing industries. Strength you can rely on.
+            As the specialized clinical logistics division of Oloker Therapeutics, we provide secure, compliant, and time-critical delivery of breakthrough cellular therapies to research institutes and clinical partners.
           </p>
         </div>
 
@@ -1107,10 +1017,6 @@ const Footer = () => (
         <div>
           <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] mb-8 text-brand-gold">Contact</h4>
           <ul className="space-y-6 text-sm text-zinc-400 font-light">
-            <li className="flex gap-4 items-start">
-              <MapPin className="w-5 h-5 opacity-50 shrink-0" />
-              <span>1500 Overland Ct, <br />West Sacramento, CA 95691</span>
-            </li>
             <li className="flex gap-4 items-center">
               <Phone className="w-5 h-5 opacity-50 shrink-0" />
               <span>+1 442 999 6108</span>
@@ -1123,8 +1029,8 @@ const Footer = () => (
         </div>
 
         <div>
-          <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] mb-8 text-brand-gold">Dispatch</h4>
-          <p className="text-zinc-500 text-xs font-light leading-relaxed mb-6">Receive industry insights and specialized permit updates.</p>
+          <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] mb-8 text-brand-gold">Clinical Updates</h4>
+          <p className="text-zinc-500 text-xs font-light leading-relaxed mb-6">Receive clinical logistics insights and compliance updates.</p>
           <form className="flex border-b border-white/20 pb-2 focus-within:border-brand-green transition-colors" action="https://formsubmit.co/airvagreenlogistics@gmail.com" method="POST">
             <input type="hidden" name="_subject" value="New Newsletter Subscription" />
             <input type="hidden" name="_captcha" value="false" />
@@ -1139,8 +1045,18 @@ const Footer = () => (
       <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-600">
         <div>© 2026 Airva Green. All rights reserved.</div>
         <div className="flex gap-8">
-          <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-          <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+          <button 
+            onClick={() => onOpenPolicy("privacy")} 
+            className="hover:text-white transition-colors cursor-pointer text-left"
+          >
+            Privacy Policy
+          </button>
+          <button 
+            onClick={() => onOpenPolicy("terms")} 
+            className="hover:text-white transition-colors cursor-pointer text-left"
+          >
+            Terms of Service
+          </button>
         </div>
       </div>
     </div>
@@ -1148,6 +1064,64 @@ const Footer = () => (
 );
 
 export default function App() {
+  const [activePolicy, setActivePolicy] = useState<null | 'privacy' | 'terms'>(null);
+
+
+  const policies = {
+    privacy: {
+      title: "Privacy Policy",
+      subtitle: "Effective Date: July 18, 2026",
+      content: [
+        {
+          section: "1. Clinical Data Protection Directive",
+          text: "At AirvaGreen, the dedicated clinical logistics division of Oloker Therapeutics, we treat institutional, operational, and clinical trial data with the highest levels of confidentiality and security. We do not provide public logistics; we exclusively serve designated medical research institutes, clinical partners, and biological material providers under strict cGMP and GDP compliance standards."
+        },
+        {
+          section: "2. Information Collection and Telemetry",
+          text: "We collect specific operational data required to validate shipment integrity and guarantee delivery viability. This includes:\n• Direct institutional contact details (names, email addresses, phone numbers, and clinical affiliations).\n• Real-time shipment telemetry (continuous temperature-controlled records, liquid nitrogen levels, environmental variables, and GPS transit paths).\n• Secure chain-of-custody documentation (electronic handoff signatures, chain of identity checkpoints, and identity verification logs of clinical receiving staff)."
+        },
+        {
+          section: "3. Purpose of Processing",
+          text: "All collected data is utilized exclusively for quality assurance, regulatory audit readiness, thermal-integrity verification, and real-time transit tracking. No information is sold, leased, or distributed to third parties for commercial use."
+        },
+        {
+          section: "4. Information Sharing & Legal Compliance",
+          text: "Data is accessible solely by authorized personnel of AirvaGreen, Oloker Therapeutics, and approved regulatory bodies (such as health authorities and safety auditors) when mandatory for therapeutic trials or compliance validation."
+        },
+        {
+          section: "5. Data Security & Storage",
+          text: "We employ defense-in-depth security architectures. All digital logs, telemetry data, and institutional records are fully encrypted in transit and at rest. Physical staging and cryogenic storage assets are protected by access-controlled perimeters and constant surveillance."
+        }
+      ]
+    },
+    terms: {
+      title: "Terms of Service",
+      subtitle: "Effective Date: July 18, 2026",
+      content: [
+        {
+          section: "1. Acceptance of Clinical Terms",
+          text: "By accessing AirvaGreen's digital tracking platform, coordinating specialized transport, or submitting updates, you accept these Terms of Service. These terms govern the relationship between AirvaGreen (division of Oloker Therapeutics) and our designated clinical trial partners."
+        },
+        {
+          section: "2. Authorized Operations and Scope",
+          text: "AirvaGreen operates exclusively as a specialized clinical logistics utility. Our services are dedicated solely to the secure, GDP-compliant, and time-critical delivery of advanced cellular therapies, biological reagents, and regenerative medicine materials. We do not provide public shipping or general freight services."
+        },
+        {
+          section: "3. Institutional Handoff Obligations",
+          text: "Receiving clinical research sites must ensure authorized personnel are present and fully trained to complete immediate receiving procedures. Because cryogenic and cell-therapy products have strict time-viability limits, receiving signatures and chain-of-identity handoffs must be executed immediately upon arrival without delay."
+        },
+        {
+          section: "4. Compliance, GDP, and Liability",
+          text: "AirvaGreen maintains strict compliance with Good Distribution Practice (GDP) standards and cGMP protocols. While we take every validation step to ensure continuous cooling and transit safety, cellular therapies and biological samples are subject to unique biochemical variables. Our liability is restricted strictly to the parameters defined in our signed Master Logistics Agreement with your institution."
+        },
+        {
+          section: "5. Governing Jurisdiction",
+          text: "These Terms of Service are governed by and construed in accordance with the laws of the State of California. Any disputes arising from these terms or our clinical transport services shall be resolved exclusively within the federal or state courts in California, with venue in West Sacramento."
+        }
+      ]
+    }
+  };
+
   return (
     <div className="font-sans antialiased selection:bg-brand-green selection:text-white bg-[#f4f4f5]">
       <Navbar />
@@ -1163,7 +1137,68 @@ export default function App() {
         <Industries />
         <CareersSection />
       </main>
-      <Footer />
+      <Footer onOpenPolicy={(policy) => setActivePolicy(policy)} />
+
+      <AnimatePresence>
+        {activePolicy && (
+          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              exit={{ opacity: 0 }}
+              onClick={() => setActivePolicy(null)}
+              className="absolute inset-0 bg-brand-green-dark/80 backdrop-blur-md" 
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              className="bg-white rounded-[32px] p-8 md:p-12 max-w-3xl w-full max-h-[85vh] overflow-y-auto relative z-10 shadow-2xl border border-zinc-100 flex flex-col"
+            >
+              <button 
+                onClick={() => setActivePolicy(null)}
+                className="absolute top-6 right-6 w-10 h-10 rounded-full bg-zinc-50 flex items-center justify-center hover:bg-zinc-100 text-zinc-400 hover:text-zinc-600 transition-colors"
+                aria-label="Close dialog"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-12 h-px bg-brand-gold" />
+                <span className="text-brand-gold font-bold uppercase text-[10px] tracking-[0.3em]">{policies[activePolicy].subtitle}</span>
+              </div>
+              
+              <h3 className="text-3xl md:text-4xl font-display font-light text-zinc-900 mb-8 tracking-tight">
+                {policies[activePolicy].title}
+              </h3>
+              
+              <div className="space-y-8 pr-2 overflow-y-auto max-h-[50vh] scrollbar-thin">
+                {policies[activePolicy].content.map((item, index) => (
+                  <div key={index} className="border-l-2 border-brand-green/30 pl-6 py-1">
+                    <h4 className="text-lg font-semibold text-zinc-900 mb-2 tracking-tight">
+                      {item.section}
+                    </h4>
+                    <p className="text-zinc-600 font-light leading-relaxed whitespace-pre-line text-sm md:text-base">
+                      {item.text}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="mt-8 pt-6 border-t border-zinc-100 flex justify-end">
+                <button
+                  onClick={() => setActivePolicy(null)}
+                  className="px-8 py-3 bg-brand-green text-white font-medium text-sm rounded-full hover:bg-brand-green-dark transition-all duration-300 shadow-md shadow-brand-green/20"
+                >
+                  Acknowledge & Close
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+
     </div>
   );
 }
