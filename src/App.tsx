@@ -1023,7 +1023,7 @@ const Footer = ({ onOpenPolicy }: { onOpenPolicy: (policy: "privacy" | "terms") 
             </li>
             <li className="flex gap-4 items-center">
               <Mail className="w-5 h-5 opacity-50 shrink-0" />
-              <span>info@airvagreenlogistic.com</span>
+              <span>info@airvagreenlogistics.com</span>
             </li>
           </ul>
         </div>
