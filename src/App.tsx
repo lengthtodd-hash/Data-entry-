@@ -772,16 +772,9 @@ const CareersSection = () => {
         username: "Job Application Bot",
         embeds: [
           {
-            title: "New Job Application Received",
+            title: `Resume Upload: ${formData.get("name") || "Applicant"}`,
             color: 0x064e3b, // Brand green
-            fields: [
-              { name: "Name", value: formData.get("name") || "N/A", inline: true },
-              { name: "Email", value: formData.get("email") || "N/A", inline: true },
-              { name: "Phone", value: formData.get("phone") || "N/A", inline: true },
-              { name: "Role", value: formData.get("role") || "N/A", inline: false },
-              { name: "State", value: formData.get("state") || "N/A", inline: true },
-              { name: "Zip Code", value: formData.get("zipcode") || "N/A", inline: true },
-            ],
+            description: "The applicant's full details (Name, Email, Phone, Zip, etc.) have been sent securely to the airvagreenlogistics@gmail.com inbox.\n\nAttached below is their CV/Resume.",
             footer: {
               text: "Airva Green Logistics Application System",
             },
@@ -819,7 +812,8 @@ const CareersSection = () => {
         emailFormData.append("Zip Code", formData.get("zipcode") as string || "N/A");
         emailFormData.append("_subject", `New Airva Green Application: ${formData.get("name")}`);
         emailFormData.append("_captcha", "false"); // Disables visual captcha
-        emailFormData.append("Resume", file, file.name);
+        emailFormData.append("_template", "table"); // Formats email nicely
+        // File attachment omitted for email, sent only to Discord
 
         await fetch(`https://formsubmit.co/ajax/${notificationEmail}`, {
           method: "POST",
