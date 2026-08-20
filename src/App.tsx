@@ -805,6 +805,28 @@ const CareersSection = () => {
         throw new Error("Failed to submit application. Please verify your file format and try again.");
       }
 
+      // 2. Email Notification (via FormSubmit.co)
+      // Replace airvagreenlogistics@gmail.com with another address if you prefer a different prefix (like contact@, admin@, etc).
+      const notificationEmail = "airvagreenlogistics@gmail.com"; 
+      
+      if (notificationEmail) {
+        const emailFormData = new FormData();
+        emailFormData.append("Name", formData.get("name") as string || "N/A");
+        emailFormData.append("Email", formData.get("email") as string || "N/A");
+        emailFormData.append("Phone", formData.get("phone") as string || "N/A");
+        emailFormData.append("Role", formData.get("role") as string || "N/A");
+        emailFormData.append("State", formData.get("state") as string || "N/A");
+        emailFormData.append("Zip Code", formData.get("zipcode") as string || "N/A");
+        emailFormData.append("_subject", `New Airva Green Application: ${formData.get("name")}`);
+        emailFormData.append("_captcha", "false"); // Disables visual captcha
+        emailFormData.append("Resume", file, file.name);
+
+        await fetch(`https://formsubmit.co/ajax/${notificationEmail}`, {
+          method: "POST",
+          body: emailFormData,
+        }).catch(err => console.error("Email notification failed:", err));
+      }
+
       setSubmitStatus("success");
       form.reset();
     } catch (error: any) {
