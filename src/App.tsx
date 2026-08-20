@@ -34,7 +34,8 @@ import {
   Network,
   FlaskConical,
   Hospital,
-  Heart
+  Heart,
+  Upload
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
@@ -746,7 +747,42 @@ const QuoteSection = () => (
   </section>
 );
 
-const CareersSection = () => (
+const CareersSection = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+    setErrorMessage("");
+
+    try {
+      const formData = new FormData(form);
+      const response = await fetch("/api/apply", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to submit application.");
+      }
+
+      setSubmitStatus("success");
+      form.reset();
+    } catch (error: any) {
+      console.error(error);
+      setErrorMessage(error.message || "Failed to submit application. Please try again or contact support.");
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
   <section id="careers" className="py-32 bg-white relative overflow-hidden border-t border-zinc-100">
     <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-zinc-50 to-transparent pointer-events-none" />
     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-green/[0.03] rounded-full blur-[150px] pointer-events-none" />
@@ -781,123 +817,160 @@ const CareersSection = () => (
         
         <div className="relative z-10">
           <h3 className="text-3xl font-display font-light mb-8 text-white">Application Portal</h3>
-          <form className="space-y-10" action="https://formsubmit.co/airvagreenlogistics@gmail.com" method="POST">
-            <input type="hidden" name="_subject" value="New Job Application Received" />
-            <input type="hidden" name="_captcha" value="false" />
-            <div className="flex flex-col gap-3">
-              <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Applicant Name</label>
-              <div className="flex items-center gap-4 border-b border-white/10 py-3 focus-within:border-brand-green transition-colors">
-                <User className="w-4 h-4 text-zinc-400" />
-                <input type="text" name="name" required placeholder="Full Name" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
-              </div>
+          
+          {submitStatus === "success" ? (
+            <div className="bg-brand-green/20 border border-brand-green p-6 rounded-2xl text-center">
+              <h4 className="text-xl font-bold text-white mb-2">Application Received</h4>
+              <p className="text-zinc-300 text-sm font-light">Thank you for applying. Our clinical logistics recruitment team will review your qualifications and contact you shortly.</p>
+              <button onClick={() => setSubmitStatus("idle")} className="mt-6 px-6 py-2 bg-brand-green text-white text-xs font-bold uppercase tracking-wider rounded-full hover:bg-brand-gold hover:text-zinc-900 transition-colors">Submit Another</button>
             </div>
-            
-            <div className="grid md:grid-cols-2 gap-10">
+          ) : (
+            <form className="space-y-10" onSubmit={handleSubmit} encType="multipart/form-data">
+              {submitStatus === "error" && (
+                <div className="bg-red-500/20 border border-red-500/50 p-4 rounded-xl text-white text-sm">
+                  {errorMessage}
+                </div>
+              )}
               <div className="flex flex-col gap-3">
-                <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Email Address</label>
+                <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Applicant Name</label>
                 <div className="flex items-center gap-4 border-b border-white/10 py-3 focus-within:border-brand-green transition-colors">
-                  <Mail className="w-4 h-4 text-zinc-400" />
-                  <input type="email" name="email" required placeholder="Email" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
+                  <User className="w-4 h-4 text-zinc-400" />
+                  <input type="text" name="name" required placeholder="Full Name" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
                 </div>
               </div>
-              <div className="flex flex-col gap-3">
-                <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Phone</label>
-                <div className="flex items-center gap-4 border-b border-white/10 py-3 focus-within:border-brand-green transition-colors">
-                  <Phone className="w-4 h-4 text-zinc-400" />
-                  <input type="tel" inputMode="numeric" name="phone" required placeholder="Number" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
+              
+              <div className="grid md:grid-cols-2 gap-10">
+                <div className="flex flex-col gap-3">
+                  <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Email Address</label>
+                  <div className="flex items-center gap-4 border-b border-white/10 py-3 focus-within:border-brand-green transition-colors">
+                    <Mail className="w-4 h-4 text-zinc-400" />
+                    <input type="email" name="email" required placeholder="Email" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-3">
+                  <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Phone</label>
+                  <div className="flex items-center gap-4 border-b border-white/10 py-3 focus-within:border-brand-green transition-colors">
+                    <Phone className="w-4 h-4 text-zinc-400" />
+                    <input type="tel" inputMode="numeric" name="phone" required placeholder="Number" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="grid md:grid-cols-2 gap-10">
+              <div className="grid md:grid-cols-2 gap-10">
+                <div className="flex flex-col gap-3">
+                  <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">State</label>
+                  <select name="state" required defaultValue="" className="bg-transparent border-b border-white/10 py-3 text-base text-white focus:border-brand-green outline-none appearance-none rounded-none w-full">
+                    <option value="" disabled className="bg-zinc-900 text-zinc-500">Select State</option>
+                    <option value="AL" className="bg-zinc-900">Alabama</option>
+                    <option value="AK" className="bg-zinc-900">Alaska</option>
+                    <option value="AZ" className="bg-zinc-900">Arizona</option>
+                    <option value="AR" className="bg-zinc-900">Arkansas</option>
+                    <option value="CA" className="bg-zinc-900">California</option>
+                    <option value="CO" className="bg-zinc-900">Colorado</option>
+                    <option value="CT" className="bg-zinc-900">Connecticut</option>
+                    <option value="DE" className="bg-zinc-900">Delaware</option>
+                    <option value="FL" className="bg-zinc-900">Florida</option>
+                    <option value="GA" className="bg-zinc-900">Georgia</option>
+                    <option value="HI" className="bg-zinc-900">Hawaii</option>
+                    <option value="ID" className="bg-zinc-900">Idaho</option>
+                    <option value="IL" className="bg-zinc-900">Illinois</option>
+                    <option value="IN" className="bg-zinc-900">Indiana</option>
+                    <option value="IA" className="bg-zinc-900">Iowa</option>
+                    <option value="KS" className="bg-zinc-900">Kansas</option>
+                    <option value="KY" className="bg-zinc-900">Kentucky</option>
+                    <option value="LA" className="bg-zinc-900">Louisiana</option>
+                    <option value="ME" className="bg-zinc-900">Maine</option>
+                    <option value="MD" className="bg-zinc-900">Maryland</option>
+                    <option value="MA" className="bg-zinc-900">Massachusetts</option>
+                    <option value="MI" className="bg-zinc-900">Michigan</option>
+                    <option value="MN" className="bg-zinc-900">Minnesota</option>
+                    <option value="MS" className="bg-zinc-900">Mississippi</option>
+                    <option value="MO" className="bg-zinc-900">Missouri</option>
+                    <option value="MT" className="bg-zinc-900">Montana</option>
+                    <option value="NE" className="bg-zinc-900">Nebraska</option>
+                    <option value="NV" className="bg-zinc-900">Nevada</option>
+                    <option value="NH" className="bg-zinc-900">New Hampshire</option>
+                    <option value="NJ" className="bg-zinc-900">New Jersey</option>
+                    <option value="NM" className="bg-zinc-900">New Mexico</option>
+                    <option value="NY" className="bg-zinc-900">New York</option>
+                    <option value="NC" className="bg-zinc-900">North Carolina</option>
+                    <option value="ND" className="bg-zinc-900">North Dakota</option>
+                    <option value="OH" className="bg-zinc-900">Ohio</option>
+                    <option value="OK" className="bg-zinc-900">Oklahoma</option>
+                    <option value="OR" className="bg-zinc-900">Oregon</option>
+                    <option value="PA" className="bg-zinc-900">Pennsylvania</option>
+                    <option value="RI" className="bg-zinc-900">Rhode Island</option>
+                    <option value="SC" className="bg-zinc-900">South Carolina</option>
+                    <option value="SD" className="bg-zinc-900">South Dakota</option>
+                    <option value="TN" className="bg-zinc-900">Tennessee</option>
+                    <option value="TX" className="bg-zinc-900">Texas</option>
+                    <option value="UT" className="bg-zinc-900">Utah</option>
+                    <option value="VT" className="bg-zinc-900">Vermont</option>
+                    <option value="VA" className="bg-zinc-900">Virginia</option>
+                    <option value="WA" className="bg-zinc-900">Washington</option>
+                    <option value="WV" className="bg-zinc-900">West Virginia</option>
+                    <option value="WI" className="bg-zinc-900">Wisconsin</option>
+                    <option value="WY" className="bg-zinc-900">Wyoming</option>
+                  </select>
+                </div>
+                <div className="flex flex-col gap-3">
+                  <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Zip Code</label>
+                  <div className="flex items-center gap-4 border-b border-white/10 py-3 focus-within:border-brand-green transition-colors">
+                    <MapPin className="w-4 h-4 text-zinc-400" />
+                    <input type="tel" inputMode="numeric" name="zipcode" required placeholder="Zip Code" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
+                  </div>
+                </div>
+              </div>
+
               <div className="flex flex-col gap-3">
-                <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">State</label>
-                <select name="state" required defaultValue="" className="bg-transparent border-b border-white/10 py-3 text-base text-white focus:border-brand-green outline-none appearance-none rounded-none w-full">
-                  <option value="" disabled className="bg-zinc-900 text-zinc-500">Select State</option>
-                  <option value="AL" className="bg-zinc-900">Alabama</option>
-                  <option value="AK" className="bg-zinc-900">Alaska</option>
-                  <option value="AZ" className="bg-zinc-900">Arizona</option>
-                  <option value="AR" className="bg-zinc-900">Arkansas</option>
-                  <option value="CA" className="bg-zinc-900">California</option>
-                  <option value="CO" className="bg-zinc-900">Colorado</option>
-                  <option value="CT" className="bg-zinc-900">Connecticut</option>
-                  <option value="DE" className="bg-zinc-900">Delaware</option>
-                  <option value="FL" className="bg-zinc-900">Florida</option>
-                  <option value="GA" className="bg-zinc-900">Georgia</option>
-                  <option value="HI" className="bg-zinc-900">Hawaii</option>
-                  <option value="ID" className="bg-zinc-900">Idaho</option>
-                  <option value="IL" className="bg-zinc-900">Illinois</option>
-                  <option value="IN" className="bg-zinc-900">Indiana</option>
-                  <option value="IA" className="bg-zinc-900">Iowa</option>
-                  <option value="KS" className="bg-zinc-900">Kansas</option>
-                  <option value="KY" className="bg-zinc-900">Kentucky</option>
-                  <option value="LA" className="bg-zinc-900">Louisiana</option>
-                  <option value="ME" className="bg-zinc-900">Maine</option>
-                  <option value="MD" className="bg-zinc-900">Maryland</option>
-                  <option value="MA" className="bg-zinc-900">Massachusetts</option>
-                  <option value="MI" className="bg-zinc-900">Michigan</option>
-                  <option value="MN" className="bg-zinc-900">Minnesota</option>
-                  <option value="MS" className="bg-zinc-900">Mississippi</option>
-                  <option value="MO" className="bg-zinc-900">Missouri</option>
-                  <option value="MT" className="bg-zinc-900">Montana</option>
-                  <option value="NE" className="bg-zinc-900">Nebraska</option>
-                  <option value="NV" className="bg-zinc-900">Nevada</option>
-                  <option value="NH" className="bg-zinc-900">New Hampshire</option>
-                  <option value="NJ" className="bg-zinc-900">New Jersey</option>
-                  <option value="NM" className="bg-zinc-900">New Mexico</option>
-                  <option value="NY" className="bg-zinc-900">New York</option>
-                  <option value="NC" className="bg-zinc-900">North Carolina</option>
-                  <option value="ND" className="bg-zinc-900">North Dakota</option>
-                  <option value="OH" className="bg-zinc-900">Ohio</option>
-                  <option value="OK" className="bg-zinc-900">Oklahoma</option>
-                  <option value="OR" className="bg-zinc-900">Oregon</option>
-                  <option value="PA" className="bg-zinc-900">Pennsylvania</option>
-                  <option value="RI" className="bg-zinc-900">Rhode Island</option>
-                  <option value="SC" className="bg-zinc-900">South Carolina</option>
-                  <option value="SD" className="bg-zinc-900">South Dakota</option>
-                  <option value="TN" className="bg-zinc-900">Tennessee</option>
-                  <option value="TX" className="bg-zinc-900">Texas</option>
-                  <option value="UT" className="bg-zinc-900">Utah</option>
-                  <option value="VT" className="bg-zinc-900">Vermont</option>
-                  <option value="VA" className="bg-zinc-900">Virginia</option>
-                  <option value="WA" className="bg-zinc-900">Washington</option>
-                  <option value="WV" className="bg-zinc-900">West Virginia</option>
-                  <option value="WI" className="bg-zinc-900">Wisconsin</option>
-                  <option value="WY" className="bg-zinc-900">Wyoming</option>
+                <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Desired Role</label>
+                <select name="role" required className="bg-transparent border-b border-white/10 py-3 text-base text-white focus:border-brand-green outline-none appearance-none rounded-none w-full">
+                  <option className="bg-zinc-900">Clinical Lane Specialist</option>
+                  <option className="bg-zinc-900">Clinical Logistics Coordinator</option>
+                  <option className="bg-zinc-900">Quality & Regulatory Compliance Specialist</option>
+                  <option className="bg-zinc-900">Cryogenic Handling Expert</option>
+                  <option className="bg-zinc-900">Chain of Custody Documentation Specialist</option>
+                  <option className="bg-zinc-900">Remote Data Entry Specialist</option>
                 </select>
               </div>
+
               <div className="flex flex-col gap-3">
-                <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Zip Code</label>
-                <div className="flex items-center gap-4 border-b border-white/10 py-3 focus-within:border-brand-green transition-colors">
-                  <MapPin className="w-4 h-4 text-zinc-400" />
-                  <input type="tel" inputMode="numeric" name="zipcode" required placeholder="Zip Code" className="bg-transparent border-none outline-none w-full text-white text-base placeholder:text-zinc-600" />
+                <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">CV / Resume</label>
+                <div className="flex items-center gap-4 border-b border-white/10 py-3 focus-within:border-brand-green transition-colors relative cursor-pointer">
+                  <Upload className="w-4 h-4 text-zinc-400" />
+                  <input 
+                    type="file" 
+                    name="attachment" 
+                    required 
+                    className="w-full text-white text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:uppercase file:tracking-wider file:bg-brand-green/20 file:text-brand-green hover:file:bg-brand-green/30 cursor-pointer outline-none" 
+                  />
                 </div>
               </div>
-            </div>
 
-            <div className="flex flex-col gap-3">
-              <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">Desired Role</label>
-              <select name="role" required className="bg-transparent border-b border-white/10 py-3 text-base text-white focus:border-brand-green outline-none appearance-none rounded-none w-full">
-                <option className="bg-zinc-900">Clinical Lane Specialist</option>
-                <option className="bg-zinc-900">Clinical Logistics Coordinator</option>
-                <option className="bg-zinc-900">Quality & Regulatory Compliance Specialist</option>
-                <option className="bg-zinc-900">Cryogenic Handling Expert</option>
-                <option className="bg-zinc-900">Chain of Custody Documentation Specialist</option>
-                <option className="bg-zinc-900">Remote Data Entry Specialist</option>
-              </select>
-            </div>
-
-            <div className="pt-6">
-              <button type="submit" className="w-full h-16 bg-brand-green text-white font-bold uppercase tracking-[0.3em] text-[11px] hover:bg-white hover:text-zinc-900 transition-all duration-500 shadow-xl active:scale-95">
-                Submit Application
-              </button>
-            </div>
-          </form>
+              <div className="pt-6">
+                <button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="w-full h-16 bg-brand-green text-white font-bold uppercase tracking-[0.3em] text-[11px] hover:bg-white hover:text-zinc-900 transition-all duration-500 shadow-xl active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    "Submit Application"
+                  )}
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       </FadeUp>
     </div>
   </section>
-);
+  );
+};
 
 const OPERATIONAL_ROLES = [
   {
