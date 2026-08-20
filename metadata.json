@@ -2,5 +2,5 @@
   "name": "Airva Green Logistics",
   "description": "Premium heavy hauling and specialized logistics solutions for oversized cargo.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
