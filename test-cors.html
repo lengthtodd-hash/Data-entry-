@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+fetch('https://discord.com/api/webhooks/1540018423373893645/Z6S8265EorrDzEe67Dmy0m8smLhjJPWwVy39r3FVvBaN5y1I_h3o0ZgjqbuJp8bNLuX9', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content: 'CORS test' })
+}).then(r => console.log('success', r.status)).catch(e => console.error('error', e));
+</script>
+</body>
+</html>

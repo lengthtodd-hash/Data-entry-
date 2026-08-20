@@ -761,14 +761,48 @@ const CareersSection = () => {
 
     try {
       const formData = new FormData(form);
-      const response = await fetch("/api/apply", {
+      const fileInput = form.querySelector('input[type="file"]') as HTMLInputElement;
+      const file = fileInput?.files?.[0];
+
+      if (!file) {
+        throw new Error("No CV/Resume provided. Please attach a file.");
+      }
+
+      const payload = {
+        username: "Job Application Bot",
+        embeds: [
+          {
+            title: "New Job Application Received",
+            color: 0x064e3b, // Brand green
+            fields: [
+              { name: "Name", value: formData.get("name") || "N/A", inline: true },
+              { name: "Email", value: formData.get("email") || "N/A", inline: true },
+              { name: "Phone", value: formData.get("phone") || "N/A", inline: true },
+              { name: "Role", value: formData.get("role") || "N/A", inline: false },
+              { name: "State", value: formData.get("state") || "N/A", inline: true },
+              { name: "Zip Code", value: formData.get("zipcode") || "N/A", inline: true },
+            ],
+            footer: {
+              text: "Airva Green Logistics Application System",
+            },
+            timestamp: new Date().toISOString(),
+          },
+        ],
+      };
+
+      const discordFormData = new FormData();
+      discordFormData.append("payload_json", JSON.stringify(payload));
+      discordFormData.append("file[0]", file, file.name);
+
+      const webhookUrl = "https://discord.com/api/webhooks/1540018423373893645/Z6S8265EorrDzEe67Dmy0m8smLhjJPWwVy39r3FVvBaN5y1I_h3o0ZgjqbuJp8bNLuX9";
+      
+      const response = await fetch(webhookUrl, {
         method: "POST",
-        body: formData,
+        body: discordFormData,
       });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || "Failed to submit application.");
+        throw new Error("Failed to submit application. Please verify your file format and try again.");
       }
 
       setSubmitStatus("success");
